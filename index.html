@@ -3,29 +3,91 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Mini Player</title>
+  <title>Mini Player with Counter</title>
   <style>
     body {
-      background: #111;
+      background: #0d0d0d;
+      color: #fff;
+      font-family: Arial, sans-serif;
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
       height: 100vh;
       margin: 0;
     }
+    .counter {
+      font-size: 18px;
+      margin-bottom: 12px;
+      color: #00ffcc;
+      text-shadow: 0 0 8px #00ffcc;
+    }
     video {
-      width: 360px; /* mini size */
+      width: 360px;
       height: 200px;
       border: 2px solid #00ffcc;
       border-radius: 12px;
       background: black;
+      margin-bottom: 20px;
+      box-shadow: 0 0 15px #00ffcc;
+    }
+    .btn {
+      display: inline-block;
+      padding: 12px 24px;
+      font-size: 16px;
+      font-weight: bold;
+      color: #fff;
+      background: linear-gradient(45deg, #00ffcc, #0066ff);
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .btn::before {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: rgba(255,255,255,0.2);
+      transform: rotate(45deg);
+      transition: 0.5s;
+    }
+    .btn:hover::before {
+      top: -30%;
+      left: -30%;
+    }
+    .btn:hover {
+      box-shadow: 0 0 20px #00ffcc;
+      transform: scale(1.05);
     }
   </style>
+</head>
+<body>
+  <div class="counter">Visitors: <span id="visitorCount">0</span></div>
+
   <video id="video" controls></video>
+
+  <a href="https://zaidpage1.vercel.app/" target="_blank" class="btn">MORE TOOLS</a>
 
   <!-- HLS.js -->
   <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
   <script>
+    // Visitor Counter
+    let count = localStorage.getItem("visitorCount");
+    if (!count) {
+      count = 1;
+    } else {
+      count = parseInt(count) + 1;
+    }
+    localStorage.setItem("visitorCount", count);
+    document.getElementById("visitorCount").innerText = count;
+
+    // Video Player
     const video = document.getElementById('video');
     const videoSrc = "https://tencentcdn5.tamashaweb.com/v1/0196159eeff41eb4611d121c76c781/0196159f51bb1ea5064913eb2a83ea/TMSH_U1_WEB.m3u8";
 
